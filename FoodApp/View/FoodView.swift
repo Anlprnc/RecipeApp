@@ -17,7 +17,7 @@ struct FoodView: View {
             Image(imageName)
                 .resizable()
                 .scaledToFill()
-                .frame(width: 80, height: 80)
+                .frame(width: 60, height: 80)
                 .clipShape(RoundedRectangle(cornerRadius: 8))
             
             VStack(alignment: .leading, spacing: 8) {
@@ -71,26 +71,45 @@ struct SoupsListView: View {
                 }) {
                     Text("View More")
                         .foregroundColor(.red)
+                        .fontWeight(.bold)
                 }
             }
             .padding(.horizontal)
             
-            ScrollView(.vertical, showsIndicators: false) {
-                VStack(spacing: 16) {
-                    ForEach(foodList.items) { food in
-                        NavigationLink(destination: FoodDetailView(recipe: Recipe.example)) {
-                            FoodView(imageName: food.imageName, title: food.title, time: food.time)
-                                .background(Color.white)
-                                .cornerRadius(15)
+            VStack(spacing: 0) {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 8) {
+                        let chunkedItems = foodList.items.chunked(into: 3)
+                        
+                        ForEach(chunkedItems, id: \.self) { group in
+                            VStack(spacing: 16) {
+                                ForEach(group) { food in
+                                    NavigationLink(destination: FoodDetailView(recipe: Recipe.example)) {
+                                        FoodView(imageName: food.imageName, title: food.title, time: food.time)
+                                            .background(Color.white)
+                                            .cornerRadius(15)
+                                    }
+                                    .buttonStyle(PlainButtonStyle())
+                                }
+                            }
                         }
-                        .buttonStyle(PlainButtonStyle())
                     }
+                    .padding(.leading, 8)
                 }
             }
-            .padding(.horizontal)
+            .background(Color(UIColor.systemGray6).ignoresSafeArea())
+            
+            Spacer()
         }
-        .padding(.top, 20)
         .background(Color(UIColor.systemGray6).ignoresSafeArea())
+    }
+}
+
+extension Array {
+    func chunked(into size: Int) -> [[Element]] {
+        stride(from: 0, to: count, by: size).map {
+            Array(self[$0..<Swift.min($0 + size, count)])
+        }
     }
 }
 
