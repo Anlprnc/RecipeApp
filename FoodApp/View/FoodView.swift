@@ -94,7 +94,6 @@ struct SoupsListView: View {
     }
 }
 
-
 #Preview {
     FoodView(imageName: "circle", title: "Tomato Soup", time: "15-20 min")
 }

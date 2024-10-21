@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Food: Identifiable {
+struct Food: Identifiable, Hashable {
     var id = UUID()
     var imageName: String
     var title: String

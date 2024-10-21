@@ -51,11 +51,11 @@ struct FoodDetailView: View {
                         HStack {
                             Image(systemName: "carrot.fill")
                                 .font(.headline)
-                                .padding(.horizontal)
                                 .foregroundStyle(Color.orange)
                             
                             Text("Ingredients")
                         }
+                        .padding(.horizontal)
                         
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 8) {
@@ -72,10 +72,10 @@ struct FoodDetailView: View {
                     VStack(alignment: .leading, spacing: 16) {
                         HStack {
                             Image(systemName: "frying.pan.fill")
-                                .padding(.horizontal)
                             
                             Text("Recipe")
                         }
+                        .padding(.horizontal)
                         
                         ForEach(recipe.steps) { step in
                             StepView(step: step)
@@ -120,21 +120,27 @@ struct StepView: View {
     let step: RecipeStep
     
     var body: some View {
-        HStack(alignment: .top, spacing: 12) {
+        HStack(alignment: .top, spacing: 8) {
             Circle()
-                .fill(Color.pink)
+                .fill(Color.red)
                 .frame(width: 8, height: 8)
                 .padding(.top, 8)
             
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading) {
                 Text("Step \(step.stepNumber)")
                     .font(.subheadline)
                     .fontWeight(.medium)
-                
-                Text(step.description)
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
             }
+        }
+        .padding(.horizontal)
+        
+        VStack {
+            Text(step.description)
+                .padding(10)
+                .font(.subheadline)
+                .fontWeight(.medium)
+                .background(Color.gray.opacity(0.1))
+                .cornerRadius(10)
         }
         .padding(.horizontal)
     }
