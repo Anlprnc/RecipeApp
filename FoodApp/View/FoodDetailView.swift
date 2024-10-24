@@ -9,6 +9,7 @@ import SwiftUI
 
 struct FoodDetailView: View {
     let recipe: Recipe
+    @ObservedObject var foodList = FoodList()
     
     var body: some View {
         ScrollView {

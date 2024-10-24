@@ -13,12 +13,13 @@ struct FoodView: View {
     let time: String
     
     var body: some View {
-        HStack(alignment: .top, spacing: 16) {
+        HStack(alignment: .top, spacing: 6) {
             Image(imageName)
                 .resizable()
                 .scaledToFill()
-                .frame(width: 60, height: 80)
+                .frame(width: 65, height: 65)
                 .clipShape(RoundedRectangle(cornerRadius: 8))
+                .padding(10)
             
             VStack(alignment: .leading, spacing: 8) {
                 Text(title)
@@ -49,6 +50,7 @@ struct FoodView: View {
             
             Spacer()
         }
+        .frame(width: UIScreen.main.bounds.width * 0.90)
         .background(Color.white)
         .cornerRadius(15)
     }
@@ -59,49 +61,54 @@ struct SoupsListView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            HStack {
-                Text("Soups")
-                    .font(.title)
-                    .bold()
-                
-                Spacer()
-                
-                Button(action: {
-                    
-                }) {
-                    Text("View More")
-                        .foregroundColor(.red)
-                        .fontWeight(.bold)
-                }
-            }
-            .padding(.horizontal)
-            
-            VStack(spacing: 0) {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 8) {
-                        let chunkedItems = foodList.items.chunked(into: 3)
-                        
-                        ForEach(chunkedItems, id: \.self) { group in
-                            VStack(spacing: 16) {
-                                ForEach(group) { food in
-                                    NavigationLink(destination: FoodDetailView(recipe: Recipe.example)) {
-                                        FoodView(imageName: food.imageName, title: food.title, time: food.time)
-                                            .background(Color.white)
-                                            .cornerRadius(15)
-                                    }
-                                    .buttonStyle(PlainButtonStyle())
-                                }
+            ScrollView {
+                ForEach(foodList.categories) { category in
+                    VStack(alignment: .leading) {
+                        HStack {
+                            Text(category.title)
+                                .font(.title)
+                                .fontWeight(.medium)
+                            
+                            Spacer()
+                            
+                            Button(action: {
+                                // MARK: Button Action
+                            }) {
+                                Text("View More")
+                                    .foregroundColor(.red)
+                                    .fontWeight(.bold)
                             }
                         }
+                        .padding(.horizontal)
+                        
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: 8) {
+                                let chunkedItems = category.items.chunked(into: 3)
+                                
+                                ForEach(chunkedItems, id: \.self) { group in
+                                    VStack(spacing: 8) {
+                                        ForEach(group) { food in
+                                            NavigationLink(destination: FoodDetailView(recipe: Recipe.example)) {
+                                                FoodView(imageName: food.imageName, title: food.title, time: food.time)
+                                                    .background(Color.white)
+                                                    .cornerRadius(15)
+                                            }
+                                            .buttonStyle(PlainButtonStyle())
+                                        }
+                                    }
+                                }
+                            }
+                            .padding(.leading, 12)
+                        }
+                        .background(Color(UIColor.systemGray6).ignoresSafeArea())
                     }
-                    .padding(.leading, 8)
+                    .padding(.vertical, 16)
                 }
+                
+                Spacer()
             }
             .background(Color(UIColor.systemGray6).ignoresSafeArea())
-            
-            Spacer()
         }
-        .background(Color(UIColor.systemGray6).ignoresSafeArea())
     }
 }
 
