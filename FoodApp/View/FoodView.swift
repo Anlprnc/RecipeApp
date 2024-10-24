@@ -64,51 +64,57 @@ struct SoupsListView: View {
             ScrollView {
                 ForEach(foodList.categories) { category in
                     VStack(alignment: .leading) {
-                        HStack {
-                            Text(category.title)
-                                .font(.title)
-                                .fontWeight(.medium)
-                            
-                            Spacer()
-                            
-                            Button(action: {
-                                // MARK: Button Action
-                            }) {
-                                Text("View More")
-                                    .foregroundColor(.red)
-                                    .fontWeight(.bold)
-                            }
-                        }
-                        .padding(.horizontal)
-                        
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 8) {
-                                let chunkedItems = category.items.chunked(into: 3)
-                                
-                                ForEach(chunkedItems, id: \.self) { group in
-                                    VStack(spacing: 8) {
-                                        ForEach(group) { food in
-                                            NavigationLink(destination: FoodDetailView(recipe: Recipe.example)) {
-                                                FoodView(imageName: food.imageName, title: food.title, time: food.time)
-                                                    .background(Color.white)
-                                                    .cornerRadius(15)
-                                            }
-                                            .buttonStyle(PlainButtonStyle())
-                                        }
-                                    }
-                                }
-                            }
-                            .padding(.leading, 12)
-                        }
-                        .background(Color(UIColor.systemGray6).ignoresSafeArea())
+                        headerView(for: category)
+                        horizontalScroll(for: category)
                     }
                     .padding(.vertical, 16)
                 }
-                
                 Spacer()
             }
             .background(Color(UIColor.systemGray6).ignoresSafeArea())
         }
+    }
+    
+    private func headerView(for category: Category) -> some View {
+        HStack {
+            Text(category.title)
+                .font(.title)
+                .fontWeight(.medium)
+            
+            Spacer()
+            
+            Button(action: {
+                // MARK: Buton Eylemi
+            }) {
+                Text("View More")
+                    .foregroundColor(.red)
+                    .fontWeight(.bold)
+            }
+        }
+        .padding(.horizontal)
+    }
+    
+    private func horizontalScroll(for category: Category) -> some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 8) {
+                let chunkedItems = category.items.chunked(into: 3)
+                
+                ForEach(chunkedItems, id: \.self) { group in
+                    VStack(spacing: 8) {
+                        ForEach(group) { food in
+                            NavigationLink(destination: FoodDetailView(recipe: Recipe.example, image: "soup")) {
+                                FoodView(imageName: food.imageName, title: food.title, time: food.time)
+                                    .background(Color.white)
+                                    .cornerRadius(15)
+                            }
+                            .buttonStyle(PlainButtonStyle())
+                        }
+                    }
+                }
+            }
+            .padding(.leading, 12)
+        }
+        .background(Color(UIColor.systemGray6).ignoresSafeArea())
     }
 }
 

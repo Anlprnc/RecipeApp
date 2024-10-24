@@ -9,27 +9,16 @@ import SwiftUI
 
 struct FoodDetailView: View {
     let recipe: Recipe
-    @ObservedObject var foodList = FoodList()
+    let image: String
     
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
-                if let imageUrl = recipe.image {
-                    AsyncImage(url: URL(string: imageUrl)) { phase in
-                        switch phase {
-                        case .success(let image):
-                            image
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(height: 200)
-                                .clipped()
-                        default:
-                            Rectangle()
-                                .fill(Color.gray.opacity(0.2))
-                                .frame(height: 200)
-                        }
-                    }
-                }
+                Image(image)
+                    .resizable()
+                    .scaledToFill()
+                    .clipShape(RoundedRectangle(cornerRadius: 6))
+                    .padding(5)
                 
                 VStack(alignment: .leading, spacing: 12) {
                     HStack {
@@ -149,6 +138,6 @@ struct StepView: View {
 
 #Preview {
     NavigationView {
-        FoodDetailView(recipe: Recipe.example)
+        FoodDetailView(recipe: Recipe.example, image: "soup")
     }
 }

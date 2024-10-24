@@ -28,6 +28,10 @@ struct Recipe: Codable, Identifiable {
 }
 
 enum RecipeType: String, Codable {
+    case soup = "Soup"
+    case salad = "Salad"
+    case purees = "Purees"
+    case mainDishes = "Main Dishes"
     case snack = "Snack"
     case breakfast = "Breakfast"
     case lunch = "Lunch"
@@ -59,6 +63,7 @@ extension Recipe {
             RecipeStep(stepNumber: 3, description: "In a separate bowl, whisk together the egg, yogurt, olive oil (or melted butter), and milk."),
             RecipeStep(stepNumber: 4, description: "Gradually add the wet ingredients to the dry mixture. Stir gently until just combined.Fold in the grated vegetables, peas, spinach, and grated cheese. If the mixture seems too dry, add a bit more milk (a tablespoon at a time)."),
             RecipeStep(stepNumber: 5, description: "Preheat your oven to 350°F (180°C). Grease your muffin tin or line with paper liners.")
-        ]
+        ],
+        image: "soup"
     )
 }
