@@ -84,7 +84,7 @@ struct SoupsListView: View {
             Spacer()
             
             Button(action: {
-                // MARK: Buton Eylemi
+                // MARK: Button Action
             }) {
                 Text("View More")
                     .foregroundColor(.red)
@@ -102,7 +102,7 @@ struct SoupsListView: View {
                 ForEach(chunkedItems, id: \.self) { group in
                     VStack(spacing: 8) {
                         ForEach(group) { food in
-                            NavigationLink(destination: FoodDetailView(recipe: Recipe.example, image: "soup")) {
+                            NavigationLink(destination: FoodDetailView(food: food)) {
                                 FoodView(imageName: food.imageName, title: food.title, time: food.time)
                                     .background(Color.white)
                                     .cornerRadius(15)
