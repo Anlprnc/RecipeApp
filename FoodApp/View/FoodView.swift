@@ -83,9 +83,7 @@ struct SoupsListView: View {
             
             Spacer()
             
-            Button(action: {
-                // MARK: Button Action
-            }) {
+            NavigationLink(destination: FoodListViewMoreView(imageName: category.items.first?.imageName ?? "soup", title: category.title, time: category.items.first?.time ?? "unknown", category: category)) {
                 Text("View More")
                     .foregroundColor(.red)
                     .fontWeight(.bold)
