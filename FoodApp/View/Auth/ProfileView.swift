@@ -9,46 +9,74 @@ import SwiftUI
 
 struct ProfileView: View {
     @EnvironmentObject var authService: AuthService
-    @State private var firstName: String = ""
-    @State private var lastName: String = ""
-    @State private var email: String = ""
-    @State private var isEditing = false
-    @State private var isLoading = false
     @State private var showImagePicker = false
     @State private var selectedImage: UIImage?
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
         NavigationView {
-            Form {
-                Section {
-                    HStack {
-                        Spacer()
-                        VStack {
-                            if let avatarUrl = authService.currentUser?.avatarUrl,
-                               let url = URL(string: "http://localhost:3000\(avatarUrl)") {
-                                AsyncImage(url: url) { image in
-                                    image
-                                        .resizable()
-                                        .scaledToFill()
-                                } placeholder: {
-                                    ProgressView()
-                                }
-                                .frame(width: 100, height: 100)
-                                .clipShape(Circle())
-                            } else {
-                                Image(systemName: "person.circle.fill")
-                                    .resizable()
+            VStack(alignment: .leading) {
+                Form {
+                    Section {
+                        HStack(alignment: .top) {
+                            Spacer()
+                            VStack {
+                                if let avatarUrl = authService.currentUser?.avatarUrl,
+                                   let url = URL(string: "http://localhost:3000\(avatarUrl)") {
+                                    AsyncImage(url: url) { image in
+                                        image
+                                            .resizable()
+                                            .scaledToFill()
+                                    } placeholder: {
+                                        ProgressView()
+                                    }
                                     .frame(width: 100, height: 100)
+                                    .clipShape(Circle())
+                                } else {
+                                    Image(systemName: "person.circle.fill")
+                                        .resizable()
+                                        .frame(width: 100, height: 100)
+                                        .foregroundColor(.gray)
+                                }
+                                
+                                Button("Change Photo") {
+                                    showImagePicker = true
+                                }
+                                .font(.caption)
+                                .padding(.top, 3)
+                                
+                                if let user = authService.currentUser {
+                                    Text(user.fullName)
+                                        .padding(.top, 3)
+                                }
+                            }
+                            Spacer()
+                        }
+                    }
+                    
+                    Section(header: Text("Account Information")) {
+                        if let user = authService.currentUser {
+                            HStack {
+                                Text("Email")
+                                Spacer()
+                                Text(user.email)
                                     .foregroundColor(.gray)
                             }
                             
-                            Button("Change Photo") {
-                                showImagePicker = true
+                            HStack {
+                                Text("Member Since")
+                                Spacer()
+                                Text(formatDate(user.createdAt))
+                                    .foregroundColor(.gray)
                             }
-                            .font(.caption)
                         }
-                        Spacer()
+                    }
+                    
+                    Section {
+                        Button("Logout") {
+                            authService.logout()
+                        }
+                        .foregroundColor(.red)
                     }
                 }
             }
@@ -57,17 +85,34 @@ struct ProfileView: View {
             }
             .onChange(of: selectedImage) { newImage in
                 if let image = newImage {
-                    uploadAvatar(image)
+                    Task {
+                        await authService.uploadAvatar(image)
+                    }
                 }
             }
+            .alert("Error", isPresented: .constant(authService.error != nil)) {
+                Button("OK") {
+                    authService.error = nil
+                }
+            } message: {
+                Text(authService.error ?? "")
+            }
         }
+        
+        Spacer()
     }
     
-    private func uploadAvatar(_ image: UIImage) {
-        Task {
-            await authService.uploadAvatar(image)
+    private func formatDate(_ dateString: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        
+        if let date = dateFormatter.date(from: dateString) {
+            dateFormatter.dateStyle = .medium
+            return dateFormatter.string(from: date)
         }
+        return dateString
     }
+    
 }
 
 struct ImagePicker: UIViewControllerRepresentable {

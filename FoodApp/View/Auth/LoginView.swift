@@ -41,12 +41,13 @@ struct LoginView: View {
                     }
                 }
                 .buttonStyle(.borderedProminent)
+                .tint(.red)
                 .disabled(isLoading || email.isEmpty || password.isEmpty)
                 
                 Button("Create Account") {
                     isShowingRegister = true
                 }
-                .foregroundColor(.blue)
+                .foregroundColor(.red)
                 
                 if let error = authService.error {
                     Text(error)

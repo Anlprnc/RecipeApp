@@ -10,8 +10,7 @@ import Foundation
 struct User: Codable {
     let id: String
     let email: String
-    let firstName: String?
-    let lastName: String?
+    let fullName: String
     var avatarUrl: String?
     let createdAt: String
     let updatedAt: String
@@ -28,6 +27,7 @@ struct LoginRequest: Codable {
 }
 
 struct RegisterRequest: Codable {
+    let fullName: String
     let email: String
     let password: String
 }

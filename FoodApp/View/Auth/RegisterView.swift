@@ -9,6 +9,7 @@ import SwiftUI
 
 struct RegisterView: View {
     @EnvironmentObject var authService: AuthService
+    @State private var fullName = ""
     @State private var email = ""
     @State private var password = ""
     @State private var isLoading = false
@@ -17,6 +18,9 @@ struct RegisterView: View {
     
     var body: some View {
         VStack(spacing: 20) {
+            TextField("Full Name", text: $fullName)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+            
             TextField("Email", text: $email)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .autocapitalization(.none)
@@ -29,7 +33,7 @@ struct RegisterView: View {
             Button(action: {
                 Task {
                     isLoading = true
-                    await authService.register(email: email, password: password)
+                    await authService.register(fullName: fullName, email: email, password: password)
                     isLoading = false
                     
                     if authService.isAuthenticated {
@@ -45,6 +49,7 @@ struct RegisterView: View {
                 }
             }
             .buttonStyle(.borderedProminent)
+            .tint(.red)
             .disabled(isLoading)
             
             if let error = authService.error {

@@ -40,11 +40,11 @@ class AuthService: ObservableObject {
         }
     }
     
-    func register(email: String, password: String) async {
+    func register(fullName: String, email: String, password: String) async {
         do {
             guard let url = URL(string: "\(baseURL)/auth/register") else { return }
             
-            let registerRequest = RegisterRequest(email: email, password: password)
+            let registerRequest = RegisterRequest(fullName: fullName, email: email, password: password)
             var request = URLRequest(url: url)
             request.httpMethod = "POST"
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -98,6 +98,42 @@ class AuthService: ObservableObject {
             
             DispatchQueue.main.async {
                 self.currentUser?.avatarUrl = response.avatarUrl
+            }
+        } catch {
+            DispatchQueue.main.async {
+                self.error = error.localizedDescription
+            }
+        }
+    }
+    
+    func updateProfile(fullName: String, email: String) async {
+        guard let token = UserDefaults.standard.string(forKey: "authToken") else { return }
+        
+        do {
+            guard let url = URL(string: "\(baseURL)/users/profile") else { return }
+            
+            struct UpdateProfileRequest: Codable {
+                let fullName: String
+                let email: String
+            }
+            
+            let updateRequest = UpdateProfileRequest(
+                fullName: fullName,
+                email: email
+            )
+            
+            var request = URLRequest(url: url)
+            request.httpMethod = "PATCH"
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+            request.httpBody = try JSONEncoder().encode(updateRequest)
+            
+            let (data, _) = try await URLSession.shared.data(for: request)
+            let updatedUser = try JSONDecoder().decode(User.self, from: data)
+            
+            DispatchQueue.main.async {
+                self.currentUser = updatedUser
+                self.error = nil
             }
         } catch {
             DispatchQueue.main.async {
