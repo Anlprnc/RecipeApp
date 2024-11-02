@@ -9,9 +9,19 @@ import SwiftUI
 
 @main
 struct FoodAppApp: App {
+    @StateObject private var authService = AuthService()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            Group {
+                if authService.isAuthenticated {
+                    ContentView()
+                        .environmentObject(authService)
+                } else {
+                    LoginView()
+                        .environmentObject(authService)
+                }
+            }
         }
     }
 }

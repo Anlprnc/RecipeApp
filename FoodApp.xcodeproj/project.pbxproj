@@ -10,9 +10,22 @@
 		04FBA9D92CC2644600793B30 /* FoodApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FoodApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		049BE2C72CD50F9D0078C41D /* Exceptions for "FoodApp" folder in "FoodApp" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 04FBA9D82CC2644600793B30 /* FoodApp */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		04FBA9DB2CC2644600793B30 /* FoodApp */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				049BE2C72CD50F9D0078C41D /* Exceptions for "FoodApp" folder in "FoodApp" target */,
+			);
 			path = FoodApp;
 			sourceTree = "<group>";
 		};
@@ -94,6 +107,8 @@
 			);
 			mainGroup = 04FBA9D02CC2644600793B30;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 04FBA9DA2CC2644600793B30 /* Products */;
 			projectDirPath = "";
@@ -255,6 +270,7 @@
 				DEVELOPMENT_TEAM = T44VVPXJ2X;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FoodApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -284,6 +300,7 @@
 				DEVELOPMENT_TEAM = T44VVPXJ2X;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FoodApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

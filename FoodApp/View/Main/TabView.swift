@@ -43,6 +43,15 @@ struct MainTabView: View {
             .tabItem {
                 Label("Food", systemImage: "list.clipboard")
             }
+            
+            NavigationView {
+                ProfileView()
+                    .navigationTitle("Profile")
+                    .navigationBarTitleDisplayMode(.inline)
+            }
+            .tabItem {
+                Label("Profile", systemImage: "person.crop.circle")
+            }
         }
         .accentColor(.red)
     }
