@@ -57,7 +57,7 @@ struct FoodView: View {
 }
 
 struct SoupsListView: View {
-    @ObservedObject var foodList = FoodList()
+    @ObservedObject var foodList = FoodRecipeList()
     
     var body: some View {
         VStack(alignment: .leading) {
