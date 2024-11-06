@@ -63,7 +63,7 @@ struct CreateFoodView: View {
                         case .success:
                             print("Food created successfully!")
                             createdFood = newFood
-                            foodList.fetchFoods() // Gıda oluşturulduktan sonra listeyi güncelle
+                            foodList.fetchFoods() 
                             if let selectedImage = imagePickerService.selectedImage {
                                 uploadImage(selectedImage)
                             }
