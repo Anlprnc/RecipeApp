@@ -76,10 +76,9 @@ struct CreateFoodView: View {
             }
             .navigationTitle("Create Food")
             .background(
-                NavigationLink(destination: SoupsListView(), isActive: $isFoodCreated) {
+                NavigationLink(destination: SoupsListView().navigationBarBackButtonHidden(true), isActive: $isFoodCreated) {
                     EmptyView()
                 }
-                .navigationBarBackButtonHidden()
             )
         }
     }
