@@ -58,21 +58,42 @@ struct FoodView: View {
 
 struct SoupsListView: View {
     @ObservedObject var foodList = FoodRecipeList()
+    @EnvironmentObject var authService: AuthService
     
     var body: some View {
-        VStack(alignment: .leading) {
-            ScrollView {
-                ForEach(foodList.categories) { category in
-                    VStack(alignment: .leading) {
-                        headerView(for: category)
-                        horizontalScroll(for: category)
+            VStack(alignment: .leading) {
+                ScrollView {
+                    ForEach(foodList.categories) { category in
+                        VStack(alignment: .leading) {
+                            headerView(for: category)
+                            horizontalScroll(for: category)
+                        }
+                        .padding(.vertical, 16)
                     }
-                    .padding(.vertical, 16)
+                    Spacer()
                 }
-                Spacer()
+                .background(Color(UIColor.systemGray6).ignoresSafeArea())
             }
-            .background(Color(UIColor.systemGray6).ignoresSafeArea())
+            .navigationBarItems(trailing: createButton)
+            .onAppear {
+                foodList.fetchFoods()
+            }
         }
+    
+    private var createButton: some View {
+        if let role = authService.currentUser?.role {
+            if role == .MANAGER || role == .ADMIN {
+                return AnyView(
+                    NavigationLink(destination: CreateFoodView()) {
+                        Text("Create Food")
+                            .fontWeight(.bold)
+                            .padding()
+                            .foregroundColor(.red)
+                    }
+                )
+            }
+        }
+        return AnyView(EmptyView())
     }
     
     private func headerView(for category: Category) -> some View {

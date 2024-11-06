@@ -7,11 +7,19 @@
 
 import Foundation
 
+enum UserRole: String, Codable {
+    case USER = "user"
+    case MANAGER = "manager"
+    case ADMIN = "admin"
+}
+
 struct User: Codable {
     let id: String
     let email: String
     let fullName: String
     var avatarUrl: String?
+    var favorites: [String]?
+    let role: UserRole
     let createdAt: String
     let updatedAt: String
 }

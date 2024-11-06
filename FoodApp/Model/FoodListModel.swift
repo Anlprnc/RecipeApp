@@ -32,7 +32,7 @@ struct Food: Codable, Identifiable, Hashable {
 struct RecipeStep: Codable, Identifiable, Equatable, Hashable {
     let id: UUID
     let stepNumber: Int
-    let description: String
+    var description: String
     
     init(id: UUID = UUID(), stepNumber: Int, description: String) {
         self.id = id
@@ -41,7 +41,7 @@ struct RecipeStep: Codable, Identifiable, Equatable, Hashable {
     }
 }
 
-enum RecipeType: String, Codable {
+enum RecipeType: String, Codable, CaseIterable {
     case soup = "Soup"
     case salad = "Salad"
     case purees = "Purees"

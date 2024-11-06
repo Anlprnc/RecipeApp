@@ -31,7 +31,7 @@ class AuthService: ObservableObject {
             DispatchQueue.main.async {
                 self.currentUser = response.user
                 self.isAuthenticated = true
-                UserDefaults.standard.set(response.token, forKey: "authToken")
+                UserDefaults.standard.set(response.token, forKey: "authToken")                
             }
         } catch {
             DispatchQueue.main.async {
